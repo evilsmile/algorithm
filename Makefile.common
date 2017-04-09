@@ -1,0 +1,5 @@
+CXXFLAGS=-g
+CC=g++
+
+%.o:%.cpp
+	$(CC) $(CXXFLAGS) -c -o $@ $<

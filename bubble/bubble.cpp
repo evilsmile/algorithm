@@ -5,9 +5,8 @@
  */
 void bubble_max(int data[], int size) 
 {
-    if (size <= 0) 
+    if (check(data, size))
     {
-        std::cerr << "invalid data size. must '-gt 0'" << std::endl;
         return;
     }
 
@@ -29,11 +28,11 @@ void bubble_max(int data[], int size)
  */
 void bubble_min(int data[], int size)
 {
-    if (size <= 0) 
+    if (check(data, size))
     {
-        std::cerr << "invalid data size. must '-gt 0'" << std::endl;
         return;
     }
+
 
     for (int i = 0; i < size; ++i) 
     {

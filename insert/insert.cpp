@@ -6,8 +6,8 @@
  */
 void insert(int data[], int size)
 {
-    if (size <= 0) {
-        std::cerr << "size must be greater than 0" << std::endl;
+    if (check(data, size))
+    {
         return;
     }
 

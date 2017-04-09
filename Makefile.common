@@ -1,5 +1,17 @@
 CXXFLAGS=-g
 CC=g++
 
+OBJ=$(patsubst %,%.o,$(BIN))
+SRC=$(patsubst %,%.cpp,$(BIN))
+
+all:$(BIN)
+
+$(BIN):$(OBJ)
+
+$(OBJ):$(SRC) ../data.h
+
 %.o:%.cpp
 	$(CC) $(CXXFLAGS) -c -o $@ $<
+
+clean:
+	rm -rf $(BIN) *.o

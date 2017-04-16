@@ -53,6 +53,8 @@ void quick(int data[], int left, int right)
 
 int main()
 {
+    init_data();
+
     print_data("Before sort: ", test_data, TEST_DATA_SIZE);
 
     quick(test_data, 0, TEST_DATA_SIZE - 1);

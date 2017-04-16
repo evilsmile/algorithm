@@ -29,6 +29,8 @@ void insert(int data[], int size)
 
 int main()
 {
+    init_data();
+
     print_data("Before sort: ", test_data, TEST_DATA_SIZE);
 
     insert(test_data, TEST_DATA_SIZE);

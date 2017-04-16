@@ -43,6 +43,8 @@ void heap_sort(int data[], int size)
 
 int main()
 {
+    init_data();
+
     print_data("Before sort: ", test_data, TEST_DATA_SIZE);
 
     heap_sort(test_data, TEST_DATA_SIZE);

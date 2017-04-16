@@ -1,4 +1,5 @@
-#include "../data.h"
+#include <include/data.h>
+#include <util/util.h>
 
 /*
    bubble 冒泡最大的冒到最右边

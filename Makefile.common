@@ -1,4 +1,4 @@
-CXXFLAGS=-g
+CXXFLAGS=-g -I../
 CC=g++
 
 OBJ=$(patsubst %,%.o,$(BIN))
@@ -6,9 +6,9 @@ SRC=$(patsubst %,%.cpp,$(BIN))
 
 all:$(BIN)
 
-$(BIN):$(OBJ)
+$(BIN):$(OBJ) ../util/util.o
 
-$(OBJ):$(SRC) ../data.h
+$(OBJ):$(SRC) ../include/data.h ../util/util.h 
 
 %.o:%.cpp
 	$(CC) $(CXXFLAGS) -c -o $@ $<

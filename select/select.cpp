@@ -1,4 +1,5 @@
-#include "../data.h"
+#include <include/data.h>
+#include <util/util.h>
 
 /*
     选择排序

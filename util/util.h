@@ -9,4 +9,6 @@ void swap(int& a, int& b);
 
 int check(int data[], int size);
 
+void init_data();
+
 #endif

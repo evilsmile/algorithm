@@ -1,5 +1,9 @@
-#include "util.h"
+#include <include/data.h>
 #include <iostream>
+
+#include "util.h"
+
+int test_data[TEST_DATA_SIZE] = {0};
 
 void print_data(const std::string& headmsg, int data[], int size)
 {
@@ -34,4 +38,11 @@ int check(int data[], int size)
     return 0;
 }
 
-
+void init_data()
+{
+   srandom(2);
+   for (int i = 0; i < TEST_DATA_SIZE; i++) {
+       int value = random() % 1000 + 1;
+       test_data[i] = value;
+   }
+}

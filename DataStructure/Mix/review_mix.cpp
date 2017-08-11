@@ -69,6 +69,7 @@ int find(int k, int data[], int size)
     return idx;
 }
 
+// Double link list
 template <class T>
 class Node {
     public:
@@ -85,6 +86,7 @@ class List {
 
         int add(T d);
         int insert(int idx, T d);
+        void reverse();
 
         void dump();
         void r_dump();
@@ -182,6 +184,37 @@ int List<T>::insert(int idx, T d)
 }
 
 template<class T>
+void List<T>::reverse()
+{
+    if (_head == NULL) {
+        return;
+    }
+
+    Node<T> *node1 = _head;
+    Node<T> *node2 = node1->next;
+    Node<T> *node3 = NULL;
+
+    // 先设置好原head的next，reverse后变成tail了，所以next是NULL
+    node1->next = NULL;
+
+    // 先交换
+    _head = _tail;
+    _tail = node1;
+
+    while (node2) {
+
+        node3 = node2->next;
+        node1->prev = node2;
+        node2->next = node1;
+
+        node1 = node2;
+        node2 = node3;
+    }
+    // node1此时为新的head，它的prev为NULL
+    node1->prev = NULL;
+}
+
+template<class T>
 void List<T>::dump()
 {
     Node<T>* node = _head;
@@ -210,6 +243,7 @@ void List<T>::r_dump()
     };
     printf("\n");
 }
+
 int main()
 {
     printf("%d\n", s2i("-1238809a"));
@@ -231,7 +265,9 @@ int main()
     l.add(20);
     l.insert(1, 88);
     l.dump();
-    l.r_dump();
+//    l.r_dump();
+    l.reverse();
+    l.dump();
 
     return 0;
 }

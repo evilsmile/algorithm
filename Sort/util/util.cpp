@@ -1,5 +1,6 @@
 #include <include/data.h>
 #include <iostream>
+#include <stdlib.h>
 
 #include "util.h"
 
@@ -40,9 +41,9 @@ int check(int data[], int size)
 
 void init_data()
 {
-   srandom(0);
+   srand(0);
    for (int i = 0; i < TEST_DATA_SIZE; i++) {
-       int value = random() % 1000 + 1;
+       int value = rand() % 1000 + 1;
        test_data[i] = value;
    }
 }

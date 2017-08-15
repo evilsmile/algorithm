@@ -1,0 +1,7 @@
+----- test.speed_cmp(100000, 100000, 1) -----
+bubble : 89.73
+heap : 67.17
+insert : 25.34
+quick : 0.03
+select : 35.83
+shell : 3.88

@@ -37,6 +37,7 @@ void BubbleSort::sort(array_t& data)
 void SelectSort::sort(array_t& data)
 {
     int size = data.size();
+#if 1
     // 因为每次循环后首尾两端存放的就是最大和最小值了，然后再对中间部分排序
     // i可以看作是已经排好序的首尾对个数
     for (int i = 0; i < size/2; ++i) {
@@ -66,6 +67,20 @@ void SelectSort::sort(array_t& data)
         if (min_i != i && min_i != size-i-1) {
             _swap(data[i], data[min_i]);
         }
+#else
+    for (int i = size - 1; i >= 0; --i) {
+        int max_i = i;
+        for (int j = 0; j < i; ++j) {
+            if (data[j] > data[max_i]) {
+                max_i = j;
+            }
+        }
+        // 如果最大值不在尾端，则交换它到尾端
+        if (max_i != i) {
+            _swap(data[i], data[max_i]);
+        }
+#endif
+
 #ifdef DEBUG
         Util::pr(data);
 #endif
@@ -194,8 +209,10 @@ void HeapSort::_heap_adjust(array_t& data, int start_father, int size)
 void HeapSort::_building_heap(array_t& data, int size)
 {
     //最后一个有孩子的节点的位置 i=  (size -1) / 2
-    for (int i = (size -1) / 2 ; i >= 0; --i)
+    for (int i = (size -1) / 2 ; i >= 0; --i) {
+        // 如果父结点调整了以后，会再往子结点调整，大大提高效率
         _heap_adjust(data, i, size);
+    }
 }
 
 /**

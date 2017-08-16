@@ -1,14 +1,24 @@
------ test.speed_cmp(100000, 100000, 1) -----
-bubble : 89.73
-heap : 67.17
-insert : 25.34
-quick : 0.03
-select : 35.83
-shell : 3.88
+----- test.speed_cmp(50000, 100000, 1) -----
+=> 原始数据逆序
+bubble : 23.45
+heap : 0.01
+insert : 12.56
+quick : 4.72
+select : 8.22
+shell : 1.49
 
-bubble : 90.03
-heap : 67.98
-insert : 25.34
-quick : 0.02
-select : 32.43
-shell : 3.94
+=> 原始数据本就是顺序
+bubble : 0.00
+heap : 0.00
+insert : 0.00
+quick : 4.70
+select : 8.13
+shell : 0.01
+
+=> 原始数据随机
+bubble : 22.45
+heap : 0.01
+insert : 6.36
+quick : 0.01
+select : 8.11
+shell : 1.05

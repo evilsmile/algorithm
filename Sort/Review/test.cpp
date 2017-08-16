@@ -55,6 +55,7 @@ void Test::_init_data(array_t& data, int size, int max)
 {
     data.clear();
     for (int i = 0; i < size; ++i) {
+//        data.push_back(i);
         data.push_back(_get_randint(max));
     }
 }
@@ -154,9 +155,9 @@ int main()
 {
     Test test;
 
-    test.valid_sort_result(100000, 1000, 1);
+//    test.valid_sort_result(100000, 1000, 1);
 
-//    test.speed_cmp(50000, 100000, 1);
+    test.speed_cmp(50000, 100000, 1);
 
     return 0;
 }

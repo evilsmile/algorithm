@@ -7,21 +7,10 @@
 #include <errno.h>
 
 #include "test.h"
+#include "util.h"
 
 #define ERR(msg) \
         std::cerr << msg" [" << strerror(errno) << "]" << std::endl;
-
-namespace Util {
-
-void pr(std::vector<int>& v)
-{
-    for (int i = 0; i < v.size(); ++i) {
-        std::cout << v[i] << " ";
-    }
-    std::cout << std::endl;
-}
-
-}
 
 Test::Test() : _rand_dev_fd(-1) {}
 
@@ -127,10 +116,19 @@ void Test::valid_sort_result(int array_size, int max, int repeat_sort_cnt)
 {
     array_t data;
 
-    bool test_succ = true;
+    // 设置需要测试的mask
+    int test_mask = 0x0;
+    test_mask &= ~(1 << SortAlgorithm::SELECT);
+    test_mask |= (1 << SortAlgorithm::SELECT);
+
     SortAlgorithm alg;
     for (int alg_type = SortAlgorithm::BUBBLE; alg_type <= SortAlgorithm::HEAP; alg_type++) {
 
+        if ((test_mask & (1 << alg_type)) == 0) {
+            continue;
+        }
+
+        bool test_succ = true;
         alg.set_algrithm(static_cast<SortAlgorithm::SORT_ALG>(alg_type));
 
         for (int i = 0 ; i < repeat_sort_cnt; ++i) {
@@ -156,9 +154,9 @@ int main()
 {
     Test test;
 
-//    test.valid_sort_result(10000, 1000, 1);
+//    test.valid_sort_result(11, 1000, 10000);
 
-    test.speed_cmp(20000, 100000, 1);
+    test.speed_cmp(100000, 100000, 1);
 
     return 0;
 }

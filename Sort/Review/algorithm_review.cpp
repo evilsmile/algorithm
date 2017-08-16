@@ -1,6 +1,9 @@
 #include <stdio.h>
 
 #include "algorithm_review.h"
+#include "util.h"
+
+//#define DEBUG 
 
 /////////////////////////////////////////////////////////////////////
 void IAlgorithm::_swap(int& a, int& b)
@@ -34,16 +37,38 @@ void BubbleSort::sort(array_t& data)
 void SelectSort::sort(array_t& data)
 {
     int size = data.size();
-    for (int i = size - 1; i > 0; --i) {
-        int max_i = i;
-        for (int j = 0; j < i; ++j) {
+    // 因为每次循环后首尾两端存放的就是最大和最小值了，然后再对中间部分排序
+    // i可以看作是已经排好序的首尾对个数
+    for (int i = 0; i < size/2; ++i) {
+        // 默认初始将最大值定在尾端，最小值定在头端
+        int max_i = size - i - 1;
+        int min_i = i;
+        for (int j = i; j < size - i; ++j) {
             if (data[j] > data[max_i]) {
                 max_i = j;
             }
+            if (data[j] < data[min_i]) {
+                min_i = j;
+            }
         }
-        if (max_i != i) {
-            _swap(data[i], data[max_i]);
+        // 如果最大值不在尾端，则交换它到尾端
+        if (max_i != size-i-1) {
+            _swap(data[size-i-1], data[max_i]);
+            // 如果原来的尾端是最小的，经过上面的交换现在被放到了max_i处了，需要重定向
+            if (min_i == size-i-1) {
+                min_i = max_i;
+            }
         }
+
+        // 如果最小值指向的不是头部，
+        // 且不是尾部(如果头部和尾部刚好是最大和最小值,则min_i指向尾部，这时上面的交换已经把首尾做过交换了，不需要再交换)，
+        // 才交换
+        if (min_i != i && min_i != size-i-1) {
+            _swap(data[i], data[min_i]);
+        }
+#ifdef DEBUG
+        Util::pr(data);
+#endif
     }
 }
 

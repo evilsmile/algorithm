@@ -80,7 +80,7 @@ class HeapSort : public IAlgorithm{
 
     private:
         void _building_heap(array_t& data, int size);
-        void _heap_adjust(array_t& data, int s, int size);
+        void _heap_adjust(array_t& data, int start_node, int size);
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -92,7 +92,8 @@ class SortAlgorithm {
             INSERT = 0x4,
             QUICK = 0x8,
             SHELL = 0x10,
-            HEAP = 0x20
+            HEAP = 0x20,
+            ALL_ALGS = BUBBLE | SELECT | INSERT | QUICK | SHELL | HEAP
         };
 
         SortAlgorithm();

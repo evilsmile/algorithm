@@ -150,32 +150,39 @@ void ShellSort::sort(array_t& data)
 }
 
 /////////////////////////////////////////////////////////////////////
-void HeapSort::_heap_adjust(array_t& data, int s, int size)
+void HeapSort::_heap_adjust(array_t& data, int start_father, int size)
 {
-    int tmp  = data[s];
+    int tmp  = data[start_father];
+    int cur_father = start_father;
 
 	//左孩子结点的位置。(i+1 为当前调整结点的右孩子结点的位置)
-    int child = 2*s+1; 
-    while (child < size) {
-		// 如果右孩子大于左孩子(找到比当前待调整结点大的孩子结点)
-        if(child+1 <size && data[child]<data[child+1]) { 
-            ++child ;
+    int max_child = 2*cur_father+1; 
+    while (true) {
+		// 找更大的子结点
+        if(max_child+1 < size && data[max_child]<data[max_child+1]) { 
+            ++max_child ;
         }
+
+        // 越界，直接退出
+        if (max_child >= size) {
+            return ;
+        }
+
 		// 如果较大的子结点大于父结点
-        if(data[s] < data[child]) { 
+        if(data[cur_father] < data[max_child]) { 
 			// 那么把较大的子结点往上移动，替换它的父结点
-            data[s] = data[child]; 
-			// 重新设置s ,即待调整的下一个结点的位置
-            s = child;       
-            child = 2*s+1;
+            data[cur_father] = data[max_child]; 
+			// 移动了子节点，可能会影响该子节点的子节点，再往下调整
+            cur_father = max_child;       
+            max_child = 2*cur_father+1;
         } 	
 		// 如果当前待调整结点大于它的左右孩子，则不需要调整，直接退出 
 		else {   
-             break;
+             return;
         }
-		// 当前待调整的结点放到比其大的孩子结点位置上
-        data[s] = tmp;         
     }
+    // 当前待调整的结点放到比其大的孩子结点位置上
+    data[cur_father] = tmp;         
 }
 
 
@@ -191,7 +198,6 @@ void HeapSort::_building_heap(array_t& data, int size)
         _heap_adjust(data, i, size);
 }
 
-#if 1
 /**
  * 堆排序算法
  */
@@ -209,27 +215,6 @@ void HeapSort::sort(array_t& data)
         _heap_adjust(data, 0, i);
   }
 }
-
-#else
-void HeapSort::sort(array_t& data)
-{
-    int size = data.size();
-    for (int s = size; s > 1; --s) {
-        for (int f = (s-1)/2; f >= 0; f--) {
-            int l_child = f<<1;
-            int r_child = l_child + 1;
-            if (l_child < s && data[l_child] > data[f]) {
-                _swap(data[l_child], data[f]);
-            } 
-            if (r_child < s && data[r_child] > data[f]) {
-                _swap(data[r_child], data[f]);
-            }
-        }
-        // [0] stores the max num after adjust
-        _swap(data[0], data[s-1]);
-    }
-}
-#endif
 
 /////////////////////////////////////////////////////////////////////
 SortAlgorithm::SortAlgorithm()

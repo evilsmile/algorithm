@@ -11,3 +11,6 @@ ${BIN}:${OBJS} ${HEADERS}
 
 sort:
 	./algorithm_review
+
+clean:
+	rm -f *.o ${BIN}

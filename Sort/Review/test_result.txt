@@ -5,3 +5,10 @@ insert : 25.34
 quick : 0.03
 select : 35.83
 shell : 3.88
+
+bubble : 90.03
+heap : 67.98
+insert : 25.34
+quick : 0.02
+select : 32.43
+shell : 3.94

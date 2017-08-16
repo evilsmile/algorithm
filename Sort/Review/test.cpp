@@ -91,19 +91,21 @@ void Test::speed_cmp(int array_size, int max, int repeat_sort_cnt)
 
 //    Util::pr(data);
 
+    // 设置需要测试的mask
+    int test_mask = 0x0;
+
+    test_mask = SortAlgorithm::HEAP;
+
     SortAlgorithm alg;
-    alg.set_algrithm(SortAlgorithm::BUBBLE);
-    _calc_speed(data, alg, repeat_sort_cnt);
-    alg.set_algrithm(SortAlgorithm::SELECT);
-    _calc_speed(data, alg, repeat_sort_cnt );
-    alg.set_algrithm(SortAlgorithm::INSERT);
-    _calc_speed(data, alg, repeat_sort_cnt);
-    alg.set_algrithm(SortAlgorithm::QUICK);
-    _calc_speed(data, alg, repeat_sort_cnt);
-    alg.set_algrithm(SortAlgorithm::SHELL);
-    _calc_speed(data, alg, repeat_sort_cnt);
-    alg.set_algrithm(SortAlgorithm::HEAP);
-    _calc_speed(data, alg, repeat_sort_cnt);
+    for (int alg_type = SortAlgorithm::BUBBLE; alg_type <= SortAlgorithm::HEAP; alg_type<<=1) {
+
+        if ((test_mask & alg_type) == 0) {
+            continue;
+        }
+
+        alg.set_algrithm(static_cast<SortAlgorithm::SORT_ALG>(alg_type));
+        _calc_speed(data, alg, repeat_sort_cnt);
+    }
 
     for (std::map<std::string, double>::iterator iter = _all_time_record.begin();
             iter != _all_time_record.end();
@@ -118,13 +120,12 @@ void Test::valid_sort_result(int array_size, int max, int repeat_sort_cnt)
 
     // 设置需要测试的mask
     int test_mask = 0x0;
-    test_mask &= ~(1 << SortAlgorithm::SELECT);
-    test_mask |= (1 << SortAlgorithm::SELECT);
+    test_mask = SortAlgorithm::HEAP;
 
     SortAlgorithm alg;
-    for (int alg_type = SortAlgorithm::BUBBLE; alg_type <= SortAlgorithm::HEAP; alg_type++) {
+    for (int alg_type = SortAlgorithm::BUBBLE; alg_type <= SortAlgorithm::HEAP; alg_type<<=1) {
 
-        if ((test_mask & (1 << alg_type)) == 0) {
+        if ((test_mask & alg_type) == 0) {
             continue;
         }
 
@@ -154,7 +155,7 @@ int main()
 {
     Test test;
 
-//    test.valid_sort_result(11, 1000, 10000);
+//    test.valid_sort_result(100, 1000, 100);
 
     test.speed_cmp(100000, 100000, 1);
 

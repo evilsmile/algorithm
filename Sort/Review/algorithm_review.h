@@ -77,18 +77,22 @@ class HeapSort : public IAlgorithm{
     public:
         HeapSort() : IAlgorithm("heap") {}
         virtual void sort(array_t&);
+
+    private:
+        void _building_heap(array_t& data, int size);
+        void _heap_adjust(array_t& data, int s, int size);
 };
 
 /////////////////////////////////////////////////////////////////////
 class SortAlgorithm {
     public:
         enum SORT_ALG {
-            BUBBLE = 0,
-            SELECT = 1,
-            INSERT = 2,
-            QUICK = 3,
-            SHELL = 4,
-            HEAP = 5
+            BUBBLE = 0x1,
+            SELECT = 0x2,
+            INSERT = 0x4,
+            QUICK = 0x8,
+            SHELL = 0x10,
+            HEAP = 0x20
         };
 
         SortAlgorithm();

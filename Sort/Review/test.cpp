@@ -21,8 +21,18 @@ void pr(std::vector<int>& v)
     std::cout << std::endl;
 }
 
+}
 
-int get_randint(int range)
+Test::Test() : _rand_dev_fd(-1) {}
+
+Test::~Test()
+{
+    if (_rand_dev_fd > 0) {
+        close(_rand_dev_fd);
+    }
+}
+
+int Test::_get_randint(int range)
 {
     bool neg = false;
     if (range < 0) {
@@ -30,16 +40,17 @@ int get_randint(int range)
         range = -range;
     }
 
-    int fd = open("/dev/urandom", O_RDONLY);
-    if (fd < 0) {
-        ERR("open /dev/random failed.");
-        return -1;
+    if (_rand_dev_fd < 0) {
+        _rand_dev_fd = open("/dev/urandom", O_RDONLY);
+        if (_rand_dev_fd < 0) {
+            ERR("open /dev/random failed.");
+            return -1;
+        }
     }
 
     int r = -1;
-    if (read(fd, (char*)&r, sizeof(r)) != sizeof(r)) {
+    if (read(_rand_dev_fd, (char*)&r, sizeof(r)) != sizeof(r)) {
         ERR("read random failed.");
-        close(fd);
         return r;
     }
 
@@ -47,19 +58,16 @@ int get_randint(int range)
         r = -r;
     }
 
-    close(fd);
-
     r = r % range;
     return neg?-r:r;
 }
 
-void init_data(array_t& data, int size, int max)
+void Test::_init_data(array_t& data, int size, int max)
 {
     data.clear();
     for (int i = 0; i < size; ++i) {
-        data.push_back(get_randint(max));
+        data.push_back(_get_randint(max));
     }
-}
 }
 
 bool Test::_check_sort(array_t& data)
@@ -90,7 +98,7 @@ void Test::speed_cmp(int array_size, int max, int repeat_sort_cnt)
 {
     array_t data;
 
-    Util::init_data(data, array_size, max);
+    _init_data(data, array_size, max);
 
 //    Util::pr(data);
 
@@ -126,7 +134,7 @@ void Test::valid_sort_result(int array_size, int max, int repeat_sort_cnt)
         alg.set_algrithm(static_cast<SortAlgorithm::SORT_ALG>(alg_type));
 
         for (int i = 0 ; i < repeat_sort_cnt; ++i) {
-            Util::init_data(data, array_size, max);
+            _init_data(data, array_size, max);
             std::cout << "Before: " << std::endl;
             Util::pr(data);
 
@@ -150,7 +158,7 @@ int main()
 
 //    test.valid_sort_result(10000, 1000, 1);
 
-    test.speed_cmp(100000, 100000, 1);
+    test.speed_cmp(20000, 100000, 1);
 
     return 0;
 }

@@ -87,13 +87,33 @@ class HeapSort : public IAlgorithm{
 class SortAlgorithm {
     public:
         enum SORT_ALG {
-            BUBBLE = 0x1,
-            SELECT = 0x2,
-            INSERT = 0x4,
-            QUICK = 0x8,
-            SHELL = 0x10,
-            HEAP = 0x20,
-            ALL_ALGS = BUBBLE | SELECT | INSERT | QUICK | SHELL | HEAP
+            NONE = 0x1,
+            BUBBLE = 0x2,
+            SELECT = 0x4,
+            INSERT = 0x8,
+            QUICK = 0x10,
+            SHELL = 0x20,
+            HEAP = 0x40,
+            MAX_ALG = HEAP << 1,
+        };
+
+        static int ALL_ALGS;
+
+        class AlgTypeTraversor {
+            public:
+                AlgTypeTraversor() : _alg_type(NONE) {}
+                bool next() {
+                    _alg_type = (SORT_ALG)(((static_cast<int>(_alg_type)))<<1);
+                    if (_alg_type >= MAX_ALG) {
+                        return false;
+                    }
+                    return true;
+                }
+                SORT_ALG get() {
+                    return _alg_type;
+                }
+            private:
+                SORT_ALG _alg_type;
         };
 
         SortAlgorithm();

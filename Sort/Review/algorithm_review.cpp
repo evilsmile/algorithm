@@ -5,6 +5,7 @@
 
 //#define DEBUG 
 
+int SortAlgorithm::ALL_ALGS = BUBBLE | SELECT | INSERT | QUICK | SHELL | HEAP;
 /////////////////////////////////////////////////////////////////////
 void IAlgorithm::_swap(int& a, int& b)
 {
@@ -82,7 +83,7 @@ void SelectSort::sort(array_t& data)
 #endif
 
 #ifdef DEBUG
-        Util::pr(data);
+        Util::pr("", data);
 #endif
     }
 }

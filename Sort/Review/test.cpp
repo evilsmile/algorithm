@@ -98,8 +98,9 @@ void Test::speed_cmp(int array_size, int max, int repeat_sort_cnt)
     test_mask = SortAlgorithm::ALL_ALGS;
 
     SortAlgorithm alg;
-    for (int alg_type = SortAlgorithm::BUBBLE; alg_type <= SortAlgorithm::HEAP; alg_type<<=1) {
-
+    SortAlgorithm::AlgTypeTraversor traversor;
+    while(traversor.next()) {
+        int alg_type = traversor.get();
         if ((test_mask & alg_type) == 0) {
             continue;
         }
@@ -121,10 +122,13 @@ void Test::valid_sort_result(int array_size, int max, int repeat_sort_cnt)
 
     // 设置需要测试的mask
     int test_mask = 0x0;
-    test_mask = SortAlgorithm::HEAP;
+    test_mask = SortAlgorithm::ALL_ALGS;
 
     SortAlgorithm alg;
-    for (int alg_type = SortAlgorithm::BUBBLE; alg_type <= SortAlgorithm::HEAP; alg_type<<=1) {
+    SortAlgorithm::AlgTypeTraversor traversor;
+    while(traversor.next()) {
+
+        int alg_type = traversor.get();
 
         if ((test_mask & alg_type) == 0) {
             continue;
@@ -135,12 +139,10 @@ void Test::valid_sort_result(int array_size, int max, int repeat_sort_cnt)
 
         for (int i = 0 ; i < repeat_sort_cnt; ++i) {
             _init_data(data, array_size, max);
-            std::cout << "Before: " << std::endl;
-            Util::pr(data);
+         Util::pr("Before Sort:\t", data);
 
-            std::cout << "After: " << std::endl;
             alg.sort(data);
-            Util::pr(data);
+         Util::pr("After Sort:\t", data);
             if (!_check_sort(data)) {
                 test_succ = false;
                 break;
@@ -155,9 +157,9 @@ int main()
 {
     Test test;
 
-//    test.valid_sort_result(100000, 1000, 1);
+    test.valid_sort_result(100, 1000, 1);
 
-    test.speed_cmp(50000, 100000, 1);
+//    test.speed_cmp(50000, 100000, 1);
 
     return 0;
 }

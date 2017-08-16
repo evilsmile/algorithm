@@ -5,8 +5,9 @@
 
 namespace Util {
 
-void pr(std::vector<int>& v)
+void pr(const std::string& header_msg, std::vector<int>& v)
 {
+    std::cout << header_msg << " ";
     for (int i = 0; i < v.size(); ++i) {
         std::cout << v[i] << " ";
     }

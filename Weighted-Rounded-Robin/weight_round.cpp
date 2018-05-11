@@ -1,13 +1,14 @@
 #include <algorithm>
 #include <string>
 #include <vector>
-#include "Choice.h"
+#include "weight_round.h"
+#include <stdio.h>
 
-void do_weight_round_choice(std::vector<Choice>& choices)
+std::string WeightSort::do_weight_round_choice()
 {
     int total = 0;
 
-    for (size_t i = 0; i < choices.size(); ++i) {
+    for (size_t i = 0; i < _choices.size(); ++i) {
         /*
          * 每个后端peer都有三个权重变量，先解释下它们的含义。
          * (1) weight
@@ -32,10 +33,18 @@ void do_weight_round_choice(std::vector<Choice>& choices)
          *  3. 对于本次选定的后端，执行：peer->current_weight -= total。
          */
 
-        choices[i].cur_weight += choices[i].effective_weight;
-        total += choices[i].effective_weight;
+        _choices[i].cur_weight += _choices[i].effective_weight;
+        total += _choices[i].effective_weight;
     }
-    std::sort(choices.begin(), choices.end(), Choice::Sort());
+    std::sort(_choices.begin(), _choices.end(), Choice::Sort());
 
-    choices[0].cur_weight -= total;
+    for (size_t i = 0; i < _choices.size(); ++i) {
+        if (_choices[i].curselect_cnt++ <= _choices[i].maxselect_cnt)
+        {
+            _choices[i].cur_weight -= total;
+            return _choices[i].name;
+        }
+    }
+
+    return "";
 }
